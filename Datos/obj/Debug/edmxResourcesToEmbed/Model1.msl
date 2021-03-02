@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TAREAModelStoreContainer" CdmEntityContainer="TAREAEntities">
+    <EntitySetMapping Name="Almacenes">
+      <EntityTypeMapping TypeName="TAREAModel.Almacenes">
+        <MappingFragment StoreEntitySet="Almacenes">
+          <ScalarProperty Name="idAlmacen" ColumnName="idAlmacen" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ConfiguracionToken">
+      <EntityTypeMapping TypeName="TAREAModel.ConfiguracionToken">
+        <MappingFragment StoreEntitySet="ConfiguracionToken">
+          <ScalarProperty Name="idConfuguracion" ColumnName="idConfuguracion" />
+          <ScalarProperty Name="Tiempo" ColumnName="Tiempo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Productos">
+      <EntityTypeMapping TypeName="TAREAModel.Productos">
+        <MappingFragment StoreEntitySet="Productos">
+          <ScalarProperty Name="idArticulo" ColumnName="idArticulo" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="codigo" ColumnName="codigo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stock">
+      <EntityTypeMapping TypeName="TAREAModel.Stock">
+        <MappingFragment StoreEntitySet="Stock">
+          <ScalarProperty Name="idStock" ColumnName="idStock" />
+          <ScalarProperty Name="Stock1" ColumnName="Stock" />
+          <ScalarProperty Name="idAlmacen" ColumnName="idAlmacen" />
+          <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tickets">
+      <EntityTypeMapping TypeName="TAREAModel.Tickets">
+        <MappingFragment StoreEntitySet="Tickets">
+          <ScalarProperty Name="idTicket" ColumnName="idTicket" />
+          <ScalarProperty Name="Ticket" ColumnName="Ticket" />
+          <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+          <ScalarProperty Name="HoraFinal" ColumnName="HoraFinal" />
+          <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuarios">
+      <EntityTypeMapping TypeName="TAREAModel.Usuarios">
+        <MappingFragment StoreEntitySet="Usuarios">
+          <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+          <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+          <ScalarProperty Name="pass" ColumnName="pass" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VLIS_Articulos">
+      <EntityTypeMapping TypeName="TAREAModel.VLIS_Articulos">
+        <MappingFragment StoreEntitySet="VLIS_Articulos">
+          <ScalarProperty Name="idArticulo" ColumnName="idArticulo" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="codigo" ColumnName="codigo" />
+          <ScalarProperty Name="Almacen" ColumnName="Almacen" />
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
+          <ScalarProperty Name="idAlmacen" ColumnName="idAlmacen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

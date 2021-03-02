@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTarea", "ApiTarea\ApiTarea.csproj", "{286F3CB2-EF73-48F1-AD00-7754ED8DDF65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datos", "Datos\Datos.csproj", "{4979036C-A5D7-4A8D-A671-9FDDE96519BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocios", "Negocios\Negocios.csproj", "{B1BE0E65-DBF8-4E89-AD4B-547DC7388592}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{286F3CB2-EF73-48F1-AD00-7754ED8DDF65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{286F3CB2-EF73-48F1-AD00-7754ED8DDF65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{286F3CB2-EF73-48F1-AD00-7754ED8DDF65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{286F3CB2-EF73-48F1-AD00-7754ED8DDF65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4979036C-A5D7-4A8D-A671-9FDDE96519BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4979036C-A5D7-4A8D-A671-9FDDE96519BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4979036C-A5D7-4A8D-A671-9FDDE96519BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4979036C-A5D7-4A8D-A671-9FDDE96519BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1BE0E65-DBF8-4E89-AD4B-547DC7388592}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1BE0E65-DBF8-4E89-AD4B-547DC7388592}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1BE0E65-DBF8-4E89-AD4B-547DC7388592}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1BE0E65-DBF8-4E89-AD4B-547DC7388592}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E14317DE-794E-4C3C-897E-211ED3DD7A04}
+	EndGlobalSection
+EndGlobal

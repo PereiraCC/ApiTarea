@@ -1,0 +1,12 @@
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\bin\Debug\Datos.dll.config
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\bin\Debug\Datos.dll
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\bin\Debug\Datos.pdb
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\bin\Debug\EntityFramework.dll
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\bin\Debug\EntityFramework.xml
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\obj\Debug\Datos.csprojAssemblyReference.cache
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\obj\Debug\Datos.csproj.CoreCompileInputs.cache
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\obj\Debug\Datos.csproj.CopyComplete
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\obj\Debug\Datos.dll
+C:\Users\PereiraCoto\Documents\Personal\Cuatrimestre\Programacion5\semana6\ApiTarea\Datos\obj\Debug\Datos.pdb

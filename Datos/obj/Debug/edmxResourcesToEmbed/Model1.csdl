@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TAREAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Almacenes">
+    <Key>
+      <PropertyRef Name="idAlmacen" />
+    </Key>
+    <Property Name="idAlmacen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Stock" Relationship="Self.fkAlmacen" FromRole="Almacenes" ToRole="Stock" />
+  </EntityType>
+  <EntityType Name="ConfiguracionToken">
+    <Key>
+      <PropertyRef Name="idConfuguracion" />
+    </Key>
+    <Property Name="idConfuguracion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Tiempo" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Productos">
+    <Key>
+      <PropertyRef Name="idArticulo" />
+    </Key>
+    <Property Name="idArticulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Stock" Relationship="Self.fkPrdocutos" FromRole="Productos" ToRole="Stock" />
+  </EntityType>
+  <EntityType Name="Stock">
+    <Key>
+      <PropertyRef Name="idStock" />
+    </Key>
+    <Property Name="idStock" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Stock1" Type="Int32" Nullable="false" />
+    <Property Name="idAlmacen" Type="Int32" Nullable="false" />
+    <Property Name="idProducto" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Almacenes" Relationship="Self.fkAlmacen" FromRole="Stock" ToRole="Almacenes" />
+    <NavigationProperty Name="Productos" Relationship="Self.fkPrdocutos" FromRole="Stock" ToRole="Productos" />
+  </EntityType>
+  <EntityType Name="Tickets">
+    <Key>
+      <PropertyRef Name="idTicket" />
+    </Key>
+    <Property Name="idTicket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ticket" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="HoraFinal" Type="DateTime" Precision="3" />
+    <Property Name="idUsuario" Type="Int32" Nullable="false" />
+    <Property Name="Estado" Type="Boolean" Nullable="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Usuarios" Relationship="Self.fkUsuarioTicket" FromRole="Tickets" ToRole="Usuarios" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+    </Key>
+    <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Apellidos" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Identificacion" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="pass" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Tickets" Relationship="Self.fkUsuarioTicket" FromRole="Usuarios" ToRole="Tickets" />
+  </EntityType>
+  <EntityType Name="VLIS_Articulos">
+    <Key>
+      <PropertyRef Name="idArticulo" />
+      <PropertyRef Name="Descripcion" />
+      <PropertyRef Name="codigo" />
+      <PropertyRef Name="Almacen" />
+      <PropertyRef Name="Stock" />
+      <PropertyRef Name="idAlmacen" />
+    </Key>
+    <Property Name="idArticulo" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Almacen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Stock" Type="Int32" Nullable="false" />
+    <Property Name="idAlmacen" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="fkAlmacen">
+    <End Role="Almacenes" Type="Self.Almacenes" Multiplicity="1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Almacenes">
+        <PropertyRef Name="idAlmacen" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="idAlmacen" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkPrdocutos">
+    <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+    <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productos">
+        <PropertyRef Name="idArticulo" />
+      </Principal>
+      <Dependent Role="Stock">
+        <PropertyRef Name="idProducto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkUsuarioTicket">
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+    <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="idUsuario" />
+      </Principal>
+      <Dependent Role="Tickets">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TAREAEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Almacenes" EntityType="Self.Almacenes" />
+    <EntitySet Name="ConfiguracionToken" EntityType="Self.ConfiguracionToken" />
+    <EntitySet Name="Productos" EntityType="Self.Productos" />
+    <EntitySet Name="Stock" EntityType="Self.Stock" />
+    <EntitySet Name="Tickets" EntityType="Self.Tickets" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+    <EntitySet Name="VLIS_Articulos" EntityType="Self.VLIS_Articulos" />
+    <AssociationSet Name="fkAlmacen" Association="Self.fkAlmacen">
+      <End Role="Almacenes" EntitySet="Almacenes" />
+      <End Role="Stock" EntitySet="Stock" />
+    </AssociationSet>
+    <AssociationSet Name="fkPrdocutos" Association="Self.fkPrdocutos">
+      <End Role="Productos" EntitySet="Productos" />
+      <End Role="Stock" EntitySet="Stock" />
+    </AssociationSet>
+    <AssociationSet Name="fkUsuarioTicket" Association="Self.fkUsuarioTicket">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="Tickets" EntitySet="Tickets" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

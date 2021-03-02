@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TAREAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Almacenes">
+          <Key>
+            <PropertyRef Name="idAlmacen" />
+          </Key>
+          <Property Name="idAlmacen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConfiguracionToken">
+          <Key>
+            <PropertyRef Name="idConfuguracion" />
+          </Key>
+          <Property Name="idConfuguracion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tiempo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="idArticulo" />
+          </Key>
+          <Property Name="idArticulo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="codigo" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="idStock" />
+          </Key>
+          <Property Name="idStock" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Stock" Type="int" Nullable="false" />
+          <Property Name="idAlmacen" Type="int" Nullable="false" />
+          <Property Name="idProducto" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="idTicket" />
+          </Key>
+          <Property Name="idTicket" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ticket" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="HoraInicio" Type="datetime" Nullable="false" />
+          <Property Name="HoraFinal" Type="datetime" />
+          <Property Name="idUsuario" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellidos" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="Identificacion" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="pass" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TAREA.dbo.VLIS_Articulos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VLIS_Articulos">
+          <Key>
+            <PropertyRef Name="idArticulo" />
+            <PropertyRef Name="Descripcion" />
+            <PropertyRef Name="codigo" />
+            <PropertyRef Name="Almacen" />
+            <PropertyRef Name="Stock" />
+            <PropertyRef Name="idAlmacen" />
+          </Key>
+          <Property Name="idArticulo" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="codigo" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Almacen" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Stock" Type="int" Nullable="false" />
+          <Property Name="idAlmacen" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fkAlmacen">
+          <End Role="Almacenes" Type="Self.Almacenes" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Almacenes">
+              <PropertyRef Name="idAlmacen" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="idAlmacen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkPrdocutos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="idArticulo" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="idProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkUsuarioTicket">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TAREAModelStoreContainer">
+          <EntitySet Name="Almacenes" EntityType="Self.Almacenes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConfiguracionToken" EntityType="Self.ConfiguracionToken" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VLIS_Articulos" EntityType="Self.VLIS_Articulos" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VLIS_Articulos].[idArticulo] AS [idArticulo], 
+    [VLIS_Articulos].[Descripcion] AS [Descripcion], 
+    [VLIS_Articulos].[codigo] AS [codigo], 
+    [VLIS_Articulos].[Almacen] AS [Almacen], 
+    [VLIS_Articulos].[Stock] AS [Stock], 
+    [VLIS_Articulos].[idAlmacen] AS [idAlmacen]
+    FROM [dbo].[VLIS_Articulos] AS [VLIS_Articulos]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fkAlmacen" Association="Self.fkAlmacen">
+            <End Role="Almacenes" EntitySet="Almacenes" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="fkPrdocutos" Association="Self.fkPrdocutos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="fkUsuarioTicket" Association="Self.fkUsuarioTicket">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TAREAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Almacenes">
+          <Key>
+            <PropertyRef Name="idAlmacen" />
+          </Key>
+          <Property Name="idAlmacen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Stock" Relationship="Self.fkAlmacen" FromRole="Almacenes" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="ConfiguracionToken">
+          <Key>
+            <PropertyRef Name="idConfuguracion" />
+          </Key>
+          <Property Name="idConfuguracion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tiempo" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="idArticulo" />
+          </Key>
+          <Property Name="idArticulo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Stock" Relationship="Self.fkPrdocutos" FromRole="Productos" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="idStock" />
+          </Key>
+          <Property Name="idStock" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Stock1" Type="Int32" Nullable="false" />
+          <Property Name="idAlmacen" Type="Int32" Nullable="false" />
+          <Property Name="idProducto" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Almacenes" Relationship="Self.fkAlmacen" FromRole="Stock" ToRole="Almacenes" />
+          <NavigationProperty Name="Productos" Relationship="Self.fkPrdocutos" FromRole="Stock" ToRole="Productos" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="idTicket" />
+          </Key>
+          <Property Name="idTicket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ticket" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HoraFinal" Type="DateTime" Precision="3" />
+          <Property Name="idUsuario" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.fkUsuarioTicket" FromRole="Tickets" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Identificacion" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tickets" Relationship="Self.fkUsuarioTicket" FromRole="Usuarios" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="VLIS_Articulos">
+          <Key>
+            <PropertyRef Name="idArticulo" />
+            <PropertyRef Name="Descripcion" />
+            <PropertyRef Name="codigo" />
+            <PropertyRef Name="Almacen" />
+            <PropertyRef Name="Stock" />
+            <PropertyRef Name="idAlmacen" />
+          </Key>
+          <Property Name="idArticulo" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Almacen" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Stock" Type="Int32" Nullable="false" />
+          <Property Name="idAlmacen" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="fkAlmacen">
+          <End Role="Almacenes" Type="Self.Almacenes" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Almacenes">
+              <PropertyRef Name="idAlmacen" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="idAlmacen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkPrdocutos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="idArticulo" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="idProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fkUsuarioTicket">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TAREAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Almacenes" EntityType="Self.Almacenes" />
+          <EntitySet Name="ConfiguracionToken" EntityType="Self.ConfiguracionToken" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+          <EntitySet Name="VLIS_Articulos" EntityType="Self.VLIS_Articulos" />
+          <AssociationSet Name="fkAlmacen" Association="Self.fkAlmacen">
+            <End Role="Almacenes" EntitySet="Almacenes" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="fkPrdocutos" Association="Self.fkPrdocutos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="fkUsuarioTicket" Association="Self.fkUsuarioTicket">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TAREAModelStoreContainer" CdmEntityContainer="TAREAEntities">
+          <EntitySetMapping Name="Almacenes">
+            <EntityTypeMapping TypeName="TAREAModel.Almacenes">
+              <MappingFragment StoreEntitySet="Almacenes">
+                <ScalarProperty Name="idAlmacen" ColumnName="idAlmacen" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConfiguracionToken">
+            <EntityTypeMapping TypeName="TAREAModel.ConfiguracionToken">
+              <MappingFragment StoreEntitySet="ConfiguracionToken">
+                <ScalarProperty Name="idConfuguracion" ColumnName="idConfuguracion" />
+                <ScalarProperty Name="Tiempo" ColumnName="Tiempo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="TAREAModel.Productos">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="idArticulo" ColumnName="idArticulo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stock">
+            <EntityTypeMapping TypeName="TAREAModel.Stock">
+              <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="idStock" ColumnName="idStock" />
+                <ScalarProperty Name="Stock1" ColumnName="Stock" />
+                <ScalarProperty Name="idAlmacen" ColumnName="idAlmacen" />
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="TAREAModel.Tickets">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="idTicket" ColumnName="idTicket" />
+                <ScalarProperty Name="Ticket" ColumnName="Ticket" />
+                <ScalarProperty Name="HoraInicio" ColumnName="HoraInicio" />
+                <ScalarProperty Name="HoraFinal" ColumnName="HoraFinal" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="TAREAModel.Usuarios">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Identificacion" ColumnName="Identificacion" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VLIS_Articulos">
+            <EntityTypeMapping TypeName="TAREAModel.VLIS_Articulos">
+              <MappingFragment StoreEntitySet="VLIS_Articulos">
+                <ScalarProperty Name="idArticulo" ColumnName="idArticulo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="Almacen" ColumnName="Almacen" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="idAlmacen" ColumnName="idAlmacen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
