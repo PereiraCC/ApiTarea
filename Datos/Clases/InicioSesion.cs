@@ -105,14 +105,37 @@ namespace Datos.Clases
                     {
                         if (user.Identificacion == identificacion && DesEncrytarPassword(user.pass) == password)
                         {
-                            string clave = ticket.crearTicket(IdUsuario(identificacion));
-                            if (clave.Equals("Error al generar el tiquete"))
+                            string resp = ticket.validarTicket(IdUsuario(identificacion));
+                            if (resp.Equals("1") || resp.Equals("0"))
                             {
-                                return "0";
+                                if (ticket.InactivarTiquete(IdUsuario(identificacion)))
+                                {
+                                    string clave = ticket.crearTicket(IdUsuario(identificacion), user.Identificacion, user.Nombre, user.Apellidos);
+                                    if (clave.Equals("Error al generar el tiquete"))
+                                    {
+                                        return "0";
+                                    }
+                                    else
+                                    {
+                                        return clave;
+                                    }
+                                }
+                                else
+                                {
+                                    return "Error al generar el tiquete";
+                                }
                             }
-                            else
+                            else if (resp.Equals("No tickets"))
                             {
-                                return clave;
+                                string clave = ticket.crearTicket(IdUsuario(identificacion), user.Identificacion, user.Nombre, user.Apellidos);
+                                if (clave.Equals("Error al generar el tiquete"))
+                                {
+                                    return "0";
+                                }
+                                else
+                                {
+                                    return clave;
+                                }
                             }
                         }
                     }

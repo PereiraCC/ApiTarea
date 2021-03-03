@@ -32,13 +32,23 @@ namespace Datos.Clases
             }
         }
 
-        public bool RefrescarTiquete(int usuario, string tiquet)
+        public bool RefrescarTiquete(int usuario)
         {
             try
             {
-                return true;
+                Tickets ticket = obtenerTicket(usuario);
 
-
+                Tickets nuevo = ticket;
+                nuevo.HoraFinal = nuevo.HoraInicio.AddMinutes(CantidadMinutos());
+                int n = entities.SaveChanges();
+                if (n > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -47,24 +57,105 @@ namespace Datos.Clases
             }
         }
 
-        public bool InactivarTiquete(int usuario, string tiquet, string identificacion, string pass)
+        //public bool InactivarTiquete(int usuario, string identificacion, string pass)
+        //{
+        //    try
+        //    {
+        //        var temp = from l in entities.Tickets
+        //                   where l.idUsuario == usuario && l.Estado == true
+        //                   select l;
+
+        //        List<Tickets> t = temp.ToList<Tickets>();
+
+        //        if (t.Count > 0)
+        //        {
+        //            if (t[0].Fecha < DateTime.Now)
+        //            {
+        //                Tickets nuevo = t.First<Tickets>(x => x.idUsuario == usuario && x.Ticket == tiquet);
+        //                nuevo.Estado = false;
+        //                int n = entities.SaveChanges();
+        //                //crearTicket(usuario);
+        //                if (n > 0)
+        //                {
+        //                    return true;
+        //                }
+        //                else
+        //                {
+        //                    return false;
+        //                }
+        //            }
+        //            else
+        //            {
+
+        //                int horaAactual = DateTime.Now.Hour;
+        //                int horaInicio = t[0].HoraInicio.Hour;
+        //                int MinutosActual = DateTime.Now.Minute;
+        //                int MinutosInicio = t[0].HoraInicio.Minute;
+        //                int tiempoEstablecido = CantidadMinutos();
+        //                if ((horaAactual - horaInicio) == 0 && (MinutosInicio - MinutosActual) > tiempoEstablecido)
+        //                {
+        //                    Tickets nuevo = t.First<Tickets>(x => x.idUsuario == usuario && x.Ticket == tiquet);
+        //                    nuevo.Estado = false;
+        //                    int n = entities.SaveChanges();
+        //                    //crearTicket(usuario);
+        //                    if (n > 0)
+        //                    {
+        //                        return true;
+        //                    }
+        //                    else
+        //                    {
+        //                        return false;
+        //                    }
+
+        //                }
+        //                else
+        //                {
+        //                    return false;
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //}
+
+        public bool InactivarTiquete(int usuario)
         {
             try
             {
-                var temp = from l in entities.Tickets
-                           where l.idUsuario == usuario && l.Ticket.Equals(tiquet) && l.Estado == true
-                           select l;
+                Tickets ticket = obtenerTicket(usuario);
 
-                List<Tickets> t = temp.ToList<Tickets>();
-
-                if (t.Count > 0)
+                if (ticket.Fecha < DateTime.Now)
                 {
-                    if (t[0].Fecha < DateTime.Now)
+                    Tickets nuevo = ticket;
+                    nuevo.Estado = false;
+                    int n = entities.SaveChanges();
+                    if (n > 0)
                     {
-                        Tickets nuevo = t.First<Tickets>(x => x.idUsuario == usuario && x.Ticket == tiquet);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    DateTime horaActual = DateTime.Now.ToLocalTime();
+                    if (ticket.HoraInicio < horaActual && ticket.HoraFinal > horaActual)
+                    {
+                        Tickets nuevo = ticket;
                         nuevo.Estado = false;
                         int n = entities.SaveChanges();
-                        crearTicket(usuario);
                         if (n > 0)
                         {
                             return true;
@@ -76,60 +167,28 @@ namespace Datos.Clases
                     }
                     else
                     {
-
-                        int horaAactual = DateTime.Now.Hour;
-                        int horaInicio = t[0].HoraInicio.Hour;
-                        int MinutosActual = DateTime.Now.Minute;
-                        int MinutosInicio = t[0].HoraInicio.Minute;
-                        int tiempoEstablecido = CantidadMinutos();
-                        if ((horaAactual - horaInicio) == 0 && (MinutosInicio - MinutosActual) > tiempoEstablecido)
-                        {
-                            Tickets nuevo = t.First<Tickets>(x => x.idUsuario == usuario && x.Ticket == tiquet);
-                            nuevo.Estado = false;
-                            int n = entities.SaveChanges();
-                            crearTicket(usuario);
-                            if (n > 0)
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
-                else
-                {
-                    return false;
-                }
-
             }
-
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
 
-        public string crearTicket(int idusuario)
+        public string crearTicket(int idusuario, string iden, string nombre, string apellido)
         {
             try
             {
-                string clave = idusuario.ToString() + "prueba";
+                string clave = idusuario.ToString() + iden + nombre + apellido;
                 Tickets tiquete = new Tickets();
                 tiquete.Estado = true;
                 tiquete.Fecha = DateTime.Now.Date;
                 tiquete.HoraInicio = DateTime.Now.ToLocalTime();
                 tiquete.Ticket = clave;
                 tiquete.idUsuario = idusuario;
-                tiquete.HoraFinal = null;
+                tiquete.HoraFinal = tiquete.HoraInicio.AddMinutes(CantidadMinutos());
                 entities.Tickets.Add(tiquete);
 
                 int res = entities.SaveChanges();
@@ -149,6 +208,58 @@ namespace Datos.Clases
                 throw ex;
             }
 
+        }
+
+        public string validarTicket(int usuario)
+        {
+            try
+            {
+                DateTime horaActual = DateTime.Now.ToLocalTime();
+                var temp = from l in entities.Tickets
+                           where l.idUsuario == usuario && l.Estado == true
+                           select l;
+
+                List<Tickets> t = temp.ToList<Tickets>();
+
+                if(t.Count > 0)
+                {
+                    if (t[0].HoraInicio < horaActual && t[0].HoraFinal > horaActual)
+                    {
+                        return "1";
+                    }
+                    else
+                    {
+                        return "0";
+                    }
+                }
+                else
+                {
+                    return "No tickets";
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public Tickets obtenerTicket(int usuario)
+        {
+            try
+            {
+                var temp = from l in entities.Tickets
+                           where l.idUsuario == usuario && l.Estado == true
+                           select l;
+
+                List<Tickets> t = temp.ToList<Tickets>();
+
+                return t[0];
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            
         }
     }
 }
