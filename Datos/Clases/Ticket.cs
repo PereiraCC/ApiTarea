@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace Datos.Clases
 {
@@ -177,11 +178,28 @@ namespace Datos.Clases
             }
         }
 
+        
+            public string GetMD5(string str)
+            {
+                MD5 md5 = MD5CryptoServiceProvider.Create();
+                ASCIIEncoding encoding = new ASCIIEncoding();
+                byte[] stream = null;
+                StringBuilder sb = new StringBuilder();
+                stream = md5.ComputeHash(encoding.GetBytes(str));
+                for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
+                return sb.ToString();
+            }
+       
+
+
+
         public string crearTicket(int idusuario, string iden, string nombre, string apellido)
         {
             try
             {
-                string clave = idusuario.ToString() + iden + nombre + apellido;
+               
+
+                string clave = GetMD5(idusuario.ToString() + iden + nombre + apellido+DateTime.Now.Date+DateTime.Now.Hour+DateTime.Now.Minute+DateTime.Now.Second);
                 Tickets tiquete = new Tickets();
                 tiquete.Estado = true;
                 tiquete.Fecha = DateTime.Now.Date;
@@ -242,6 +260,36 @@ namespace Datos.Clases
                 throw ex;
             }
         }
+
+        public string GetTicket(int usuario)
+        {
+            try
+            {
+                string validar = validarTicket(usuario);
+
+                if (validar.Equals("1"))
+                {
+                    var temp = from l in entities.Tickets
+                               where l.idUsuario == usuario && l.Estado == true
+                               select l;
+
+                    List<Tickets> t = temp.ToList<Tickets>();
+
+                    return t[0].Ticket;
+                }
+                else
+                {
+                    return "0";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
 
         public Tickets obtenerTicket(int usuario)
         {
