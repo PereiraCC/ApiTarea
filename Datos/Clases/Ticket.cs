@@ -228,6 +228,44 @@ namespace Datos.Clases
 
         }
 
+        public bool InactivarTicketCierreSesion(int usuario)
+        {
+            try
+            {
+                var temp = from l in entities.Tickets
+                           where l.idUsuario == usuario && l.Estado == true
+                           select l;
+
+                List<Tickets> t = temp.ToList<Tickets>();
+
+                Tickets C = entities.Tickets.First<Tickets>(y => y.idUsuario == usuario);
+                C.idUsuario = t[0].idUsuario;
+                C.Ticket = t[0].Ticket;
+                C.HoraInicio = t[0].HoraInicio;
+                C.HoraFinal = t[0].HoraFinal;
+                C.Fecha = t[0].Fecha;
+                C.Estado = false;
+                int x = entities.SaveChanges();
+                 if (x==1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+                
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            
+
+        }
+
         public string validarTicket(int usuario)
         {
             try
