@@ -36,8 +36,15 @@ namespace ApiTarea.Controllers
 
                         almacenes.Add(temp);
                     }
-
-                    return almacenes;
+                    if (db.RefrescarTicket(id))
+                    {
+                        return almacenes;
+                    }
+                    else
+                    {
+                        return almacenes;
+                    }
+                   
                 }
                 else
                 {
@@ -111,7 +118,14 @@ namespace ApiTarea.Controllers
                     string resp = db.crearAlmacen(almacenes.Descripcion);
                     if (resp.Equals("1"))
                     {
-                        return CreatedAtRoute("DefaultApi", new { id = almacenes.idAlmacen }, almacenes);
+                        if (db.RefrescarTicket(id))
+                        {
+                            return CreatedAtRoute("DefaultApi", new { id = almacenes.idAlmacen }, almacenes);
+                        }
+                        else
+                        {
+                            throw new Exception("El ticket no se actualizo.");
+                        }
                     }
                     else if (resp.Equals("Almacen Existe"))
                     {

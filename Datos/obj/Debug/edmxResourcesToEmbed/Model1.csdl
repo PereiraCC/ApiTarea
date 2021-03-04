@@ -42,7 +42,7 @@
     <Property Name="idTicket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Ticket" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="HoraFinal" Type="DateTime" Precision="3" />
+    <Property Name="HoraFinal" Type="DateTime" Precision="3" Nullable="false" />
     <Property Name="idUsuario" Type="Int32" Nullable="false" />
     <Property Name="Estado" Type="Boolean" Nullable="false" />
     <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />

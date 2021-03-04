@@ -211,5 +211,17 @@ namespace Negocios
                 throw ex;
             }
         }
+
+        public bool RefrescarTicket(string id)
+        {
+            try
+            {
+                return inicioSesion.RefrescarTicket(id);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

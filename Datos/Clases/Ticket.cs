@@ -40,7 +40,7 @@ namespace Datos.Clases
                 Tickets ticket = obtenerTicket(usuario);
 
                 Tickets nuevo = ticket;
-                nuevo.HoraFinal = nuevo.HoraInicio.AddMinutes(CantidadMinutos());
+                nuevo.HoraFinal = nuevo.HoraFinal.AddMinutes(CantidadMinutos());
                 int n = entities.SaveChanges();
                 if (n > 0)
                 {

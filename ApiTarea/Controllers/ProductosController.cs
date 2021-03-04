@@ -27,7 +27,15 @@ namespace ApiTarea.Controllers
 
                 if (db.ValidarTicket(ticket, id).Equals("1"))
                 {
-                    return db.obtenerTodosProducto();
+                    if (db.RefrescarTicket(id))
+                    {
+                        return db.obtenerTodosProducto();
+                    }
+                    else
+                    {
+                        return productos;
+                    }
+                    
                 }
                 else
                 {
@@ -52,12 +60,19 @@ namespace ApiTarea.Controllers
                     VLIS_Articulos prod = db.obtenerUnProducto(codigo);
                     if (prod != null)
                     {
-                        ModelProducto producto = new ModelProducto();
-                        producto.codigo = prod.codigo;
-                        producto.descripcion = prod.Descripcion;
-                        producto.cantidad = prod.Stock.ToString();
-                        producto.nombreAlmacen = prod.Almacen;
-                        return Ok(producto);
+                        if (db.RefrescarTicket(id))
+                        {
+                            ModelProducto producto = new ModelProducto();
+                            producto.codigo = prod.codigo;
+                            producto.descripcion = prod.Descripcion;
+                            producto.cantidad = prod.Stock.ToString();
+                            producto.nombreAlmacen = prod.Almacen;
+                            return Ok(producto); 
+                        }
+                        else
+                        {
+                            throw new Exception("El ticket no se actualizo.");
+                        }
                     }
                     else
                     {
@@ -77,17 +92,25 @@ namespace ApiTarea.Controllers
 
         // PUT: api/Productos/5
         [ResponseType(typeof(void))]
-        [Route("api/Productos/Modificar", Name = "PutProductos")]
+        //[Route("api/Productos/Modificar", Name = "PutProductos")]
         public IHttpActionResult PutProductos(string ticket, string id, ModelProducto productos)
         {
             try
             {
                 if (db.ValidarTicket(ticket, id).Equals("1"))
                 {
+                   
                     string resp = db.actualizarProducto(productos.codigo, productos.descripcion, productos.cantidad, productos.nombreAlmacen);
                     if (resp.Equals("1"))
                     {
-                        return StatusCode(HttpStatusCode.NoContent);
+                        if (db.RefrescarTicket(id))
+                        {
+                            return StatusCode(HttpStatusCode.NoContent);
+                        }
+                        else
+                        {
+                            throw new Exception("El ticket no se actualizo.");
+                        }
                     }
                     else if (resp.Equals("Producto No existe"))
                     {
@@ -96,7 +119,7 @@ namespace ApiTarea.Controllers
                     else
                     {
                         throw new Exception(resp);
-                    } 
+                    }  
                 }
                 else
                 {
@@ -118,10 +141,18 @@ namespace ApiTarea.Controllers
             {
                 if (db.ValidarTicket(ticket, id).Equals("1"))
                 {
+                    
                     string resp = db.crearProducto(producto.descripcion, producto.codigo, producto.cantidad, producto.nombreAlmacen);
                     if (resp.Equals("1"))
                     {
-                        return CreatedAtRoute("DefaultApi", new { id = producto.codigo }, producto);
+                        if (db.RefrescarTicket(id))
+                        {
+                            return CreatedAtRoute("DefaultApi", new { id = producto.codigo }, producto);
+                        }
+                        else
+                        {
+                            throw new Exception("El ticket no se actualizo.");
+                        }
                     }
                     else if (resp.Equals("Producto Existe"))
                     {
@@ -130,7 +161,7 @@ namespace ApiTarea.Controllers
                     else
                     {
                         throw new Exception(resp);
-                    } 
+                    }  
                 }
                 else
                 {
@@ -146,17 +177,24 @@ namespace ApiTarea.Controllers
         // DELETE: api/Productos/5
         [ResponseType(typeof(Productos))]
         //[Route("api/Productos/Eliminar", Name = "DeleteProductos")]
-        public IHttpActionResult DeleteProductos(string data)
+        public IHttpActionResult DeleteProductos(string ticket, string id, string data)
         {
             try
             {
-                string[] info = data.Split(',');
-                if (db.ValidarTicket(info[0], info[1]).Equals("1"))
+                if (db.ValidarTicket(ticket, id).Equals("1"))
                 {
-                    string resp = db.eliminarProducto(info[2]);
+                    string resp = db.eliminarProducto(data);
                     if (resp.Equals("1"))
                     {
-                        return StatusCode(HttpStatusCode.NoContent);
+                        if (db.RefrescarTicket(id))
+                        {
+                            return StatusCode(HttpStatusCode.NoContent);
+                        }
+                        else
+                        {
+                            throw new Exception("El ticket no se actualizo.");
+                        }
+                        
                     }
                     else if (resp.Equals("Producto No existe"))
                     {

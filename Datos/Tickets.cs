@@ -17,7 +17,7 @@ namespace Datos
         public int idTicket { get; set; }
         public string Ticket { get; set; }
         public System.DateTime HoraInicio { get; set; }
-        public Nullable<System.DateTime> HoraFinal { get; set; }
+        public System.DateTime HoraFinal { get; set; }
         public int idUsuario { get; set; }
         public bool Estado { get; set; }
         public System.DateTime Fecha { get; set; }

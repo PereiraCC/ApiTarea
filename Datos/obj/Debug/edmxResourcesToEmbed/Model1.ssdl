@@ -38,7 +38,7 @@
     <Property Name="idTicket" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Ticket" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="HoraInicio" Type="datetime" Nullable="false" />
-    <Property Name="HoraFinal" Type="datetime" />
+    <Property Name="HoraFinal" Type="datetime" Nullable="false" />
     <Property Name="idUsuario" Type="int" Nullable="false" />
     <Property Name="Estado" Type="bit" Nullable="false" />
     <Property Name="Fecha" Type="date" Nullable="false" />

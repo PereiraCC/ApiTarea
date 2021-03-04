@@ -43,7 +43,7 @@
           <Property Name="idTicket" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Ticket" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="HoraInicio" Type="datetime" Nullable="false" />
-          <Property Name="HoraFinal" Type="datetime" />
+          <Property Name="HoraFinal" Type="datetime" Nullable="false" />
           <Property Name="idUsuario" Type="int" Nullable="false" />
           <Property Name="Estado" Type="bit" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
@@ -188,7 +188,7 @@ warning 6002: The table/view 'TAREA.dbo.VLIS_Articulos' does not have a primary 
           <Property Name="idTicket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Ticket" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="HoraInicio" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="HoraFinal" Type="DateTime" Precision="3" />
+          <Property Name="HoraFinal" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="idUsuario" Type="Int32" Nullable="false" />
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />

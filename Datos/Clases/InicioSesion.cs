@@ -212,5 +212,25 @@ namespace Datos.Clases
             }
 
         }
+
+        public bool RefrescarTicket(string iden)
+        {
+            try
+            {
+                if (ticket.RefrescarTiquete(IdUsuario(iden)))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }
