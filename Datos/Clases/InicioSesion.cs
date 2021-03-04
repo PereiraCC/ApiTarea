@@ -152,5 +152,65 @@ namespace Datos.Clases
                 throw ex;
             }
         }
+
+        public string CerrarSesion(string identificacion)
+        {
+            try
+            {
+                List<Usuarios> usuarios = BuscarUsuario(identificacion);
+
+                if (usuarios.Count > 0)
+                {
+
+                    if (ticket.InactivarTicketCierreSesion(IdUsuario(identificacion)))
+                    {
+                        return "1";
+                    }
+                    else
+                    {
+                        return "0";
+                    }
+                }
+                else
+                {
+                    return "El usuario no existe";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string ValidarTicket(string tiquete, string iden)
+        {
+            try
+            {
+                string resp = ticket.GetTicket(IdUsuario(iden));
+                if (!resp.Equals("0"))
+                {
+                    tiquete = tiquete.Replace('"', ' ');
+                    tiquete = tiquete.Trim();
+                    if (resp.Equals(tiquete))
+                    {
+                        return "1";
+                    }
+                    else
+                    {
+                        return "0";
+                    }
+                }
+                else
+                {
+                    return resp;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

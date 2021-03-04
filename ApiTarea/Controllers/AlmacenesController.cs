@@ -19,22 +19,31 @@ namespace ApiTarea.Controllers
         private Store db = new Store();
 
         // GET: api/Almacenes
-        public List<ModelAlmacen> GetAlmacenes()
+        public List<ModelAlmacen> GetAlmacenes(string ticket, string id)
         {
             try
             {
                 List<ModelAlmacen> almacenes = new List<ModelAlmacen>();
-                List<Almacenes> almac = db.obtenerAlmacenes();
-                foreach (Almacenes al in almac)
+
+                if (db.ValidarTicket(ticket, id).Equals("1"))
                 {
-                    ModelAlmacen temp = new ModelAlmacen();
-                    temp.idAlmacen = al.idAlmacen;
-                    temp.Descripcion = al.Descripcion;
+                    List<Almacenes> almac = db.obtenerAlmacenes();
+                    foreach (Almacenes al in almac)
+                    {
+                        ModelAlmacen temp = new ModelAlmacen();
+                        temp.idAlmacen = al.idAlmacen;
+                        temp.Descripcion = al.Descripcion;
 
-                    almacenes.Add(temp);
+                        almacenes.Add(temp);
+                    }
+
+                    return almacenes;
                 }
-
-                return almacenes;
+                else
+                {
+                    return almacenes;
+                }
+                
             }
             catch (Exception ex)
             {
@@ -91,24 +100,33 @@ namespace ApiTarea.Controllers
         //}
 
         // POST: api/Almacenes
+
         [ResponseType(typeof(Almacenes))]
-        public IHttpActionResult PostAlmacenes(Almacenes almacenes)
+        public IHttpActionResult PostAlmacenes(string ticket, string id, Almacenes almacenes)
         {
             try
             {
-                string resp = db.crearAlmacen(almacenes.Descripcion);
-                if (resp.Equals("1"))
+                if (db.ValidarTicket(ticket, id).Equals("1"))
                 {
-                    return CreatedAtRoute("DefaultApi", new { id = almacenes.idAlmacen }, almacenes);
-                }
-                else if (resp.Equals("Almacen Existe"))
-                {
-                    return Conflict();
+                    string resp = db.crearAlmacen(almacenes.Descripcion);
+                    if (resp.Equals("1"))
+                    {
+                        return CreatedAtRoute("DefaultApi", new { id = almacenes.idAlmacen }, almacenes);
+                    }
+                    else if (resp.Equals("Almacen Existe"))
+                    {
+                        return Conflict();
+                    }
+                    else
+                    {
+                        throw new Exception(resp);
+                    }
                 }
                 else
                 {
-                    throw new Exception(resp);
+                    throw new Exception("El ticket no existe o es invalido.");
                 }
+                    
             }
             catch (Exception ex)
             {

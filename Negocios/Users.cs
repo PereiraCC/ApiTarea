@@ -118,5 +118,25 @@ namespace Negocios
                 throw ex;
             }
         }
+
+        public string CerrarSesion(string identificacion)
+        {
+            try
+            {
+                string resp = validaciones.ValidarUsuarioInicioSesion(identificacion);
+                if (resp.Equals("1"))
+                {
+                   return inicioSesion.CerrarSesion(identificacion);
+                }
+                else
+                {
+                    return resp;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

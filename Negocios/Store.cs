@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Clases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,13 @@ namespace Negocios
     {
         private Almacen almacen;
         private Validaciones validaciones;
+        private InicioSesion inicioSesion;
 
         public Store()
         {
             almacen = new Almacen();
             validaciones = new Validaciones();
+            inicioSesion = new InicioSesion();
         }
 
         public string crearAlmacen(string descripcion)
@@ -64,6 +67,18 @@ namespace Negocios
             try
             {
                 return almacen.ObtenerAlmacenes();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string ValidarTicket(string tiquete, string id)
+        {
+            try
+            {
+                return inicioSesion.ValidarTicket(tiquete, id);
             }
             catch (Exception ex)
             {

@@ -178,8 +178,9 @@ namespace Datos.Clases
             }
         }
 
-        
-            public string GetMD5(string str)
+        public string GetMD5(string str)
+        {
+            try
             {
                 MD5 md5 = MD5CryptoServiceProvider.Create();
                 ASCIIEncoding encoding = new ASCIIEncoding();
@@ -189,16 +190,16 @@ namespace Datos.Clases
                 for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
                 return sb.ToString();
             }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
        
-
-
-
         public string crearTicket(int idusuario, string iden, string nombre, string apellido)
         {
             try
             {
-               
-
                 string clave = GetMD5(idusuario.ToString() + iden + nombre + apellido+DateTime.Now.Date+DateTime.Now.Hour+DateTime.Now.Minute+DateTime.Now.Second);
                 Tickets tiquete = new Tickets();
                 tiquete.Estado = true;
@@ -232,21 +233,12 @@ namespace Datos.Clases
         {
             try
             {
-                var temp = from l in entities.Tickets
-                           where l.idUsuario == usuario && l.Estado == true
-                           select l;
+                Tickets ticket = obtenerTicket(usuario);
 
-                List<Tickets> t = temp.ToList<Tickets>();
-
-                Tickets C = entities.Tickets.First<Tickets>(y => y.idUsuario == usuario);
-                C.idUsuario = t[0].idUsuario;
-                C.Ticket = t[0].Ticket;
-                C.HoraInicio = t[0].HoraInicio;
-                C.HoraFinal = t[0].HoraFinal;
-                C.Fecha = t[0].Fecha;
-                C.Estado = false;
-                int x = entities.SaveChanges();
-                 if (x==1)
+                Tickets nuevo = ticket;
+                nuevo.Estado = false;
+                int n = entities.SaveChanges();
+                if (n > 0)
                 {
                     return true;
                 }
@@ -254,16 +246,12 @@ namespace Datos.Clases
                 {
                     return false;
                 }
-                
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
-
-            
-
         }
 
         public string validarTicket(int usuario)
@@ -326,8 +314,6 @@ namespace Datos.Clases
                 throw ex;
             }
         }
-
-
 
         public Tickets obtenerTicket(int usuario)
         {

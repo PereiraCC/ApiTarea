@@ -130,6 +130,38 @@ namespace ApiTarea.Controllers
             }
         }
 
+        [ResponseType(typeof(Usuarios))]
+        [Route("api/Usuarios/SingOut", Name = "CerrarSesion")]
+        public IHttpActionResult CerrarSesion(Usuarios usuarios)
+        {
+            try
+            {
+                string resp = db.CerrarSesion(usuarios.Identificacion);
+
+                if (resp.Equals("El usuario no existe"))
+                {
+                    return NotFound();
+                }
+                else if (resp.Equals("0"))
+                {
+                    throw new Exception("Error al momento de cerrar sesion");
+                }
+                else if (resp.Equals("1"))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    throw new Exception(resp);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         // DELETE: api/Usuarios/5
         //[ResponseType(typeof(Usuarios))]
         //public IHttpActionResult DeleteUsuarios(int id)

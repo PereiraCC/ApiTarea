@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Datos.Clases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Datos
     public class Almacen
     {
         private TAREAEntities entities;
+
 
         public Almacen()
         {
@@ -104,5 +106,7 @@ namespace Datos
             }
 
         }
+
+        
     }
 }

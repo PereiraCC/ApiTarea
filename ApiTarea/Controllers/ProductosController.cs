@@ -19,11 +19,21 @@ namespace ApiTarea.Controllers
         private Product db = new Product();
 
         // GET: api/Productos
-        public List<VLIS_Articulos> GetProductos()
+        public List<VLIS_Articulos> GetProductos(string ticket, string id)
         {
             try
             {
-                return db.obtenerTodosProducto();
+                List<VLIS_Articulos> productos = new List<VLIS_Articulos>();
+
+                if (db.ValidarTicket(ticket, id).Equals("1"))
+                {
+                    return db.obtenerTodosProducto();
+                }
+                else
+                {
+                    return productos;
+                }
+                
             }
             catch (Exception ex)
             {
@@ -33,23 +43,30 @@ namespace ApiTarea.Controllers
 
         // GET: api/Productos/5
         [ResponseType(typeof(Productos))]
-        public IHttpActionResult GetProductos(string codigo)
+        public IHttpActionResult GetProductos(string ticket, string id, string codigo)
         {
             try
             {
-                VLIS_Articulos prod = db.obtenerUnProducto(codigo);
-                if (prod != null)
+                if (db.ValidarTicket(ticket, id).Equals("1"))
                 {
-                    ModelProducto producto = new ModelProducto();
-                    producto.codigo = prod.codigo;
-                    producto.descripcion = prod.Descripcion;
-                    producto.cantidad = prod.Stock.ToString();
-                    producto.nombreAlmacen = prod.Almacen;
-                    return Ok(producto);
+                    VLIS_Articulos prod = db.obtenerUnProducto(codigo);
+                    if (prod != null)
+                    {
+                        ModelProducto producto = new ModelProducto();
+                        producto.codigo = prod.codigo;
+                        producto.descripcion = prod.Descripcion;
+                        producto.cantidad = prod.Stock.ToString();
+                        producto.nombreAlmacen = prod.Almacen;
+                        return Ok(producto);
+                    }
+                    else
+                    {
+                        return NotFound();
+                    } 
                 }
                 else
                 {
-                    return NotFound();
+                    throw new Exception("El ticket no existe o es invalido.");
                 }
             }
             catch (Exception ex)
@@ -60,22 +77,30 @@ namespace ApiTarea.Controllers
 
         // PUT: api/Productos/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutProductos(string codigo, ModelProducto productos)
+        [Route("api/Productos/Modificar", Name = "PutProductos")]
+        public IHttpActionResult PutProductos(string ticket, string id, ModelProducto productos)
         {
             try
             {
-                string resp = db.actualizarProducto(codigo, productos.descripcion, productos.cantidad, productos.nombreAlmacen);
-                if (resp.Equals("1"))
+                if (db.ValidarTicket(ticket, id).Equals("1"))
                 {
-                    return StatusCode(HttpStatusCode.NoContent);
-                }
-                else if (resp.Equals("Producto No existe"))
-                {
-                    return NotFound();
+                    string resp = db.actualizarProducto(productos.codigo, productos.descripcion, productos.cantidad, productos.nombreAlmacen);
+                    if (resp.Equals("1"))
+                    {
+                        return StatusCode(HttpStatusCode.NoContent);
+                    }
+                    else if (resp.Equals("Producto No existe"))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw new Exception(resp);
+                    } 
                 }
                 else
                 {
-                    throw new Exception(resp);
+                    throw new Exception("El ticket no existe o es invalido.");
                 }
 
             }
@@ -87,22 +112,29 @@ namespace ApiTarea.Controllers
 
         // POST: api/Productos
         [ResponseType(typeof(Productos))]
-        public IHttpActionResult PostProductos(ModelProducto producto)
+        public IHttpActionResult PostProductos(string ticket, string id, ModelProducto producto)
         {
             try
             {
-                string resp = db.crearProducto(producto.descripcion, producto.codigo, producto.cantidad, producto.nombreAlmacen);
-                if (resp.Equals("1"))
+                if (db.ValidarTicket(ticket, id).Equals("1"))
                 {
-                    return CreatedAtRoute("DefaultApi", new { id = producto.codigo }, producto);
-                }
-                else if (resp.Equals("Producto Existe"))
-                {
-                    return Conflict();
+                    string resp = db.crearProducto(producto.descripcion, producto.codigo, producto.cantidad, producto.nombreAlmacen);
+                    if (resp.Equals("1"))
+                    {
+                        return CreatedAtRoute("DefaultApi", new { id = producto.codigo }, producto);
+                    }
+                    else if (resp.Equals("Producto Existe"))
+                    {
+                        return Conflict();
+                    }
+                    else
+                    {
+                        throw new Exception(resp);
+                    } 
                 }
                 else
                 {
-                    throw new Exception(resp);
+                    throw new Exception("El ticket no existe o es invalido.");
                 }
             }
             catch (Exception ex)
@@ -113,22 +145,31 @@ namespace ApiTarea.Controllers
 
         // DELETE: api/Productos/5
         [ResponseType(typeof(Productos))]
-        public IHttpActionResult DeleteProductos(string codigo)
+        //[Route("api/Productos/Eliminar", Name = "DeleteProductos")]
+        public IHttpActionResult DeleteProductos(string data)
         {
             try
             {
-                string resp = db.eliminarProducto(codigo);
-                if (resp.Equals("1"))
+                string[] info = data.Split(',');
+                if (db.ValidarTicket(info[0], info[1]).Equals("1"))
                 {
-                    return StatusCode(HttpStatusCode.NoContent);
-                }
-                else if (resp.Equals("Producto No existe"))
-                {
-                    return NotFound();
+                    string resp = db.eliminarProducto(info[2]);
+                    if (resp.Equals("1"))
+                    {
+                        return StatusCode(HttpStatusCode.NoContent);
+                    }
+                    else if (resp.Equals("Producto No existe"))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw new Exception(resp);
+                    } 
                 }
                 else
                 {
-                    throw new Exception(resp);
+                    throw new Exception("El ticket no existe o es invalido.");
                 }
             }
             catch (Exception ex)

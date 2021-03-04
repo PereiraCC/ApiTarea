@@ -95,6 +95,39 @@ namespace Negocios
             }
         }
 
+        public string ValidarUsuarioInicioSesion(string Identificacion)
+        {
+            try
+            {
+                if (!ValidarNulos(Identificacion))
+                {
+                    if (ValidarNumero(Identificacion))
+                    {
+                        if (!validarKeyWords(Identificacion))
+                        {
+                            return "1";
+                        }
+                        else
+                        {
+                            return "Los datos contienen informacion invalida.";
+                        }
+                    }
+                    else
+                    {
+                        return "La identificacion no debe contener letras.";
+                    }
+                }
+                else
+                {
+                    return "El campo de Identificacion es Obligatorio";
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public string ValidarAlmacen(string descripcion)
         {
             try

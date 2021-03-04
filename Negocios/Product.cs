@@ -1,4 +1,5 @@
 ﻿using Datos;
+using Datos.Clases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,14 @@ namespace Negocios
         private Producto producto;
         private Almacen almacen;
         private Validaciones validaciones;
+        private InicioSesion inicioSesion;
 
         public Product()
         {
             producto = new Producto();
             almacen = new Almacen();
             validaciones = new Validaciones();
+            inicioSesion = new InicioSesion();
         }
 
         public string crearProducto(string descripcion, string codigo, string cantidad, string nombreAlmacen)
@@ -190,6 +193,18 @@ namespace Negocios
                     return "El codigo del producto es invalido.";
                 }
 
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string ValidarTicket(string tiquete, string id)
+        {
+            try
+            {
+                return inicioSesion.ValidarTicket(tiquete, id);
             }
             catch (Exception ex)
             {
