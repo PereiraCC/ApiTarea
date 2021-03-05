@@ -97,20 +97,20 @@ namespace Negocios
                     string clave = inicioSesion.ValidarInicioSesion(identificacion, password);
                     if (!clave.Equals("0"))
                     {
-                        return clave;
+                        return "1," + clave;
                     }
                     else if (clave.Equals("0"))
                     {
-                        return "Usuario y/o contraseña incorrectos.";
+                        return "0,Usuario y/o contraseña incorrectos.";
                     }
                     else 
                     {
-                        return clave;
+                        return "0," + clave;
                     }
                 }
                 else
                 {
-                    return resp;
+                    return "0," + resp;
                 }
             }
             catch (Exception ex)

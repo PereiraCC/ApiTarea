@@ -105,22 +105,23 @@ namespace ApiTarea.Controllers
             try
             {
                 string resp = db.ValidarInicioSesion(usuarios.Identificacion, usuarios.pass);
+                string[] data = resp.Split(','); 
                 
-                if (resp.Equals("El usuario no existe"))
+                if (data[1].Equals("El usuario no existe"))
                 {
                     return NotFound();
                 }
-                else if (resp.Equals("Usuario y/o contraseña incorrectos."))
+                else if (data[1].Equals("Usuario y/o contraseña incorrectos."))
                 {
-                    throw new Exception(resp);
+                    throw new Exception(data[1]);
                 }
-                else if (!resp.Equals("0"))
+                else if (data[0].Equals("1"))
                 {
-                    return Ok(resp);
+                    return Ok(data[1]);
                 }
                 else
                 {
-                    throw new Exception(resp);
+                    throw new Exception(data[1]);
                 }
 
             }
