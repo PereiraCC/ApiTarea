@@ -177,13 +177,13 @@ namespace ApiTarea.Controllers
         // DELETE: api/Productos/5
         [ResponseType(typeof(Productos))]
         //[Route("api/Productos/Eliminar", Name = "DeleteProductos")]
-        public IHttpActionResult DeleteProductos(string ticket, string id, string data)
+        public IHttpActionResult DeleteProductos(string ticket, string id, string codigo)
         {
             try
             {
                 if (db.ValidarTicket(ticket, id).Equals("1"))
                 {
-                    string resp = db.eliminarProducto(data);
+                    string resp = db.eliminarProducto(codigo);
                     if (resp.Equals("1"))
                     {
                         if (db.RefrescarTicket(id))

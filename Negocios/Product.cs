@@ -30,7 +30,7 @@ namespace Negocios
                 string resp = validaciones.validarDatosProducto(descripcion, codigo, cantidad, nombreAlmacen);
                 if (resp.Equals("1"))
                 {
-                    if (!producto.ExisteProducto(descripcion))
+                    if (!producto.ExisteProducto(codigo))
                     {
                         int res = producto.crearProducto(new Productos()
                         {
@@ -136,7 +136,7 @@ namespace Negocios
                     if (producto.ExisteProducto(codigo))
                     {
                         int res = producto.ActualizarProducto(codigo, descripcion, cantidad, nombreAlmacen);
-                        if (res == 1)
+                        if (res == 1 || res == 2 || res == 3)
                         {
                             return "1";
                         }
