@@ -271,6 +271,10 @@ namespace Datos.Clases
                     {
                         return "1";
                     }
+                    else if (t[0].HoraInicio < horaActual && t[0].HoraFinal < horaActual)
+                    {
+                        return "2";
+                    }
                     else
                     {
                         return "0";
@@ -302,6 +306,23 @@ namespace Datos.Clases
                     List<Tickets> t = temp.ToList<Tickets>();
 
                     return t[0].Ticket;
+                }
+                else if (validar.Equals("2"))
+                {
+                    if (RefrescarTiquete(usuario))
+                    {
+                        var temp = from l in entities.Tickets
+                                   where l.idUsuario == usuario && l.Estado == true
+                                   select l;
+
+                        List<Tickets> t = temp.ToList<Tickets>();
+
+                        return t[0].Ticket;
+                    }
+                    else
+                    {
+                        return "0";
+                    }
                 }
                 else
                 {

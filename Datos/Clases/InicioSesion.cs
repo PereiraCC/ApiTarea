@@ -106,7 +106,7 @@ namespace Datos.Clases
                         if (user.Identificacion == identificacion && DesEncrytarPassword(user.pass) == password)
                         {
                             string resp = ticket.validarTicket(IdUsuario(identificacion));
-                            if (resp.Equals("1") || resp.Equals("0"))
+                            if (resp.Equals("2") || resp.Equals("1") || resp.Equals("0"))
                             {
                                 if (ticket.InactivarTiquete(IdUsuario(identificacion)))
                                 {
