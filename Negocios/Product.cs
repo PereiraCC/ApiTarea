@@ -126,6 +126,27 @@ namespace Negocios
             }
         }
 
+        public List<VLIS_Articulos> obtenerUnProductoNombre(string nombre)
+        {
+            try
+            {
+                List<VLIS_Articulos> productos = new List<VLIS_Articulos>();
+                if (validaciones.validarNombreP(nombre))
+                {
+                    productos = producto.ObtenerUnProductoNombre(nombre);
+                }
+                else
+                {
+                    productos = null;
+                }
+                return productos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public string actualizarProducto(string codigo, string descripcion, string cantidad, string nombreAlmacen)
         {
             try

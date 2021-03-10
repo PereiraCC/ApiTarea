@@ -90,6 +90,57 @@ namespace ApiTarea.Controllers
             }
         }
 
+        [HttpGet]
+        [ResponseType(typeof(Productos))]
+        [Route("api/Productos/BuscarProducto", Name = "BuscarProducto")]
+        public IHttpActionResult BuscarProducto(string ticket, string id, string nombre)
+        {
+            try
+            {
+                List<VLIS_Articulos> productos = new List<VLIS_Articulos>();
+                if (db.ValidarTicket(ticket, id).Equals("1"))
+                {
+                    productos = db.obtenerUnProductoNombre(nombre);
+                    if (productos != null)
+                    {
+                        if (db.RefrescarTicket(id))
+                        {
+                            List<ModelProducto> prod = new List<ModelProducto>();
+                            foreach (VLIS_Articulos art in productos)
+                            {
+                                ModelProducto temp = new ModelProducto();
+                                temp.codigo = art.codigo;
+                                temp.descripcion = art.Descripcion;
+                                temp.cantidad = art.Stock.ToString();
+                                temp.nombreAlmacen = art.Almacen;
+
+                                prod.Add(temp);
+                            }
+                            
+                            return Ok(prod);
+                        }
+                        else
+                        {
+                            throw new Exception("El ticket no se actualizo.");
+                        }
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+                else
+                {
+                    throw new Exception("El ticket no existe o es invalido.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         // PUT: api/Productos/5
         [ResponseType(typeof(void))]
         //[Route("api/Productos/Modificar", Name = "PutProductos")]

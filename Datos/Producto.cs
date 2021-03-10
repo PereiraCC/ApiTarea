@@ -110,6 +110,28 @@ namespace Datos
             }
         }
 
+        public List<VLIS_Articulos> ObtenerUnProductoNombre(string nombre)
+        {
+            try
+            {
+                List<VLIS_Articulos> productos = new List<VLIS_Articulos>();
+                List<VLIS_Articulos> produ = entities.VLIS_Articulos.ToList<VLIS_Articulos>();
+
+                foreach (VLIS_Articulos prod in produ)
+                {
+                    if (prod.Descripcion.Equals(nombre) || prod.Descripcion.Contains(nombre))
+                    {
+                        productos.Add(prod);
+                    }
+                }
+                return productos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public int ObtenerUnProducto2(string nombre)
         {
             try

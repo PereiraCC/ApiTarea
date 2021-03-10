@@ -213,6 +213,25 @@ namespace Negocios
             }
         }
 
+        public bool validarNombreP(string data)
+        {
+            try
+            {
+                if (ValidarNulos(data) == false && validarTexto(data))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public bool validarTexto(string data)
         {
             try
